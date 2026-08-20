@@ -7,6 +7,10 @@ on:
     - cron: "0 4 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: readme-build
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -41,4 +45,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git add -A
           git commit -m "Updated stat cards" || echo "No changes to commit"
+          git pull --rebase --autostash origin main
           git push
